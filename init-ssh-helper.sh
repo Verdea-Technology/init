@@ -25,68 +25,6 @@ EOF
     exit 0
 }
 
-# Function to analyze SSH keys and permissions
-analyze_ssh_keys() {
-    local dir="$1"
-    echo "🔍 Analyzing SSH keys and permissions..."
-    
-    # Check .ssh directory permissions
-    local dir_perm=$(stat -f %A "$dir" 2>/dev/null || stat -c %a "$dir" 2>/dev/null)
-    if [ "$dir_perm" != "700" ]; then
-        echo "⚠️  .ssh directory permissions are $dir_perm (should be 700)"
-        echo "   Fix with: chmod 700 $dir"
-    else
-        echo "✅ .ssh directory permissions are correct (700)"
-    fi
-    
-    # Find private keys
-    local private_keys=()
-    for key in "$dir"/id_*; do
-        if [ -f "$key" ] && [[ "$key" != *.pub ]]; then
-            private_keys+=("$key")
-        fi
-    done
-    
-    if [ ${#private_keys[@]} -eq 0 ]; then
-        echo "❌ No private SSH keys found in $dir"
-        echo "   You have public key files but no private keys."
-        return 1
-    fi
-    
-    echo "✅ Found ${#private_keys[@]} private key(s)"
-    
-    # Check each private key
-    for key in "${private_keys[@]}"; do
-        local key_perm=$(stat -f %A "$key" 2>/dev/null || stat -c %a "$key" 2>/dev/null)
-        if [ "$key_perm" != "600" ]; then
-            echo "⚠️  Private key $key permissions are $key_perm (should be 600)"
-            echo "   Fix with: chmod 600 $key"
-        else
-            echo "✅ Private key $key permissions are correct (600)"
-        fi
-        
-        # Check if corresponding .pub exists
-        if [ -f "$key.pub" ]; then
-            echo "✅ Public key exists: $key.pub"
-        else
-            echo "⚠️  No public key found for $key"
-            echo "   Generate with: ssh-keygen -y -f $key > $key.pub"
-        fi
-    done
-    
-    # Check ssh-agent
-    if ssh-add -l >/dev/null 2>&1; then
-        echo "✅ SSH agent is running and has loaded keys"
-        ssh-add -l | head -5
-    else
-        echo "⚠️  SSH agent not running or no keys loaded"
-        echo "   Start with: eval \"\\$(ssh-agent -s)\""
-    fi
-    
-    return 0
-}
-
-
 # Check for help argument
 if [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
     show_help
@@ -116,8 +54,6 @@ fi
 
 echo "📁 Keys in $ssh_dir:"
 ls -la "$ssh_dir" | grep -E "\.pub$|id_"
-
-analyze_ssh_keys "$ssh_dir"
 
 # Test GitHub SSH connection
 echo ""
@@ -156,9 +92,8 @@ echo ""
 echo "5. Get your public key for the admin:"
 echo "   cat $ssh_dir/id_ed25519.pub"
 echo "   Copy the output and send it to your admin."
-echo "   The admin will add this public key to GitHub to grant you access."
 echo ""
-echo "6. After the admin adds your key to GitHub, run this script again to test."
+echo "6. After the admin adds your key, run this script again to test."
 echo ""
 echo "For more details, see the README.md file."
 exit 1

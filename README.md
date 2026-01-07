@@ -1,11 +1,30 @@
 # init
 
+
+## 1. Clone this repo with HTTPS
+Test your access to github
+```bash
+git clone https://github.com/Verdea-Technology/init.git
+```
+
+## 2. Run shell helper
+```bash
+./init-ssh-helper.sh
+```
+
+
+## 2. Create a SSH key
+```bash
+ssh-keygen -y -f ~/.ssh/[key_filename] > ~/.ssh/[key_filename].pub
+```
+
 Test your access to github
 ```bash
 ssh -T git@github.com
 ```
 
-Use SSH instead of HTTPS for all repos
+Switch to SSH instead of HTTPS
+(all other repos should use SSH)
 ```bash
 git remote set-url origin git@github.com:Verdea-Technology/init.git
 ```
@@ -24,10 +43,7 @@ MacOS - add key to keychain
 ```bash
 ssh-add --apple-use-keychain ~/.ssh/[key_filename]
 ```
-Missing public key?
-```bash
-ssh-keygen -y -f ~/.ssh/[key_filename] > ~/.ssh/[key_filename].pub
-```
+
 
 ```bash
 pbcopy < ~/.ssh/[key_filename].pub
