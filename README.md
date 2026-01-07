@@ -5,6 +5,11 @@ Test your access to github
 ssh -T git@github.com
 ```
 
+Use SSH instead of HTTPS for all repos
+```bash
+git remote set-url origin git@github.com:Verdea-Technology/init.git
+```
+
 Check if you have keys
 ```bash
 ls -al ~/.ssh
