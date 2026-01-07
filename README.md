@@ -13,50 +13,54 @@ Automatically diagnose and fix SSH issues.
 ```
 
 ## Step 3: Create a new SSH key (if you don't have one)
-Generate an ed25519 key with your email.
+Generate an ed25519 key with your company email (or use your personal email).
 ```bash
-ssh-keygen -t ed25519 -C "your_email@company.com"
+ssh-keygen -t ed25519 -C "your_email@verdea.io"
 ```
-- Press Enter to accept the default location (~/.ssh/id_ed25519)
+- Press Enter to accept the default location (~/.ssh/verdea_ed25519)
 - Enter a passphrase when prompted (optional but recommended)
 
-## Step 4: Add key to ssh-agent
+## Step 4: Add key to ssh-agentno 
 Load your key into the SSH agent.
 ```bash
-ssh-add ~/.ssh/id_ed25519
+ssh-add ~/.ssh/verdea_ed25519
 ```
 macOS only:
 ```bash
-ssh-add --apple-use-keychain ~/.ssh/id_ed25519
+ssh-add --apple-use-keychain ~/.ssh/verdea_ed25519
 ```
 
 ## Step 5: Copy your public key
 Send this to your admin to add to GitHub.
 
-macOS:
+macOS - Copies your public key to the clipboard.
 ```bash
-pbcopy < ~/.ssh/id_ed25519.pub
+pbcopy < ~/.ssh/verdea_ed25519.pub
 ```
 
-Linux:
+Linux - Displays your public key (select and copy).
 ```bash
-cat ~/.ssh/id_ed25519.pub
+cat ~/.ssh/verdea_ed25519.pub
 ```
 
-Windows CMD:
+Windows CMD - Displays your public key (select and copy).
 ```bash
-type %USERPROFILE%\.ssh\id_ed25519.pub
+type %USERPROFILE%\.ssh\verdea_ed25519.pub
 ```
 
-Windows PowerShell:
+Windows PowerShell - Copies your public key to the clipboard.
 ```bash
-Get-Content $env:USERPROFILE\.ssh\id_ed25519.pub | Set-Clipboard
+Get-Content $env:USERPROFILE\.ssh\verdea_ed25519.pub | Set-Clipboard
 ```
 
-## Step 6: Add key to GitHub
-1. Go to GitHub Settings → SSH and GPG Keys → New SSH Key
-2. Paste your public key
-3. Notify your admin you've added your key
+## Step 6: Send your public key to your admin
+Only the admin can add keys to the GitHub organization.
+
+1. Send the **public key** (`~/.ssh/verdea_ed25519.pub`) to your admin
+2. The admin will add it to the GitHub organization
+3. Once added, you'll have access to private Verdea repos
+
+Never share your private key (`verdea_ed25519` without `.pub`).
 
 ## Step 7: Test your connection
 Verify SSH access works.

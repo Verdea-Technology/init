@@ -53,7 +53,7 @@ if [ ! -d "$ssh_dir" ]; then
 fi
 
 echo "📁 Keys in $ssh_dir:"
-ls -la "$ssh_dir" | grep -E "\.pub$|id_"
+ls -la "$ssh_dir" | grep -E "\.pub$|verdea_"
 
 # Test GitHub SSH connection
 echo ""
@@ -73,24 +73,24 @@ fi
 echo ""
 echo "=== Diagnosis Steps ==="
 echo "1. Check for SSH keys in $ssh_dir"
-echo "   Look for files like id_rsa, id_ed25519, etc."
+echo "   Look for files like verdea_rsa, verdea_ed25519, etc."
 echo ""
 echo "2. If no key exists, generate one:"
 echo "   ssh-keygen -t ed25519 -C \"your_email@example.com\""
-echo "   (Save to $ssh_dir/id_ed25519)"
+echo "   (Save to $ssh_dir/verdea_ed25519)"
 echo ""
 echo "3. Set correct permissions:"
-echo "   chmod 600 $ssh_dir/id_ed25519"
+echo "   chmod 600 $ssh_dir/verdea_ed25519"
 echo ""
 echo "4. Add key to ssh‑agent:"
 echo "   eval \"\$(ssh-agent -s)\""
-echo "   ssh-add $ssh_dir/id_ed25519"
+echo "   ssh-add $ssh_dir/verdea_ed25519"
 if [[ "$(uname)" == "Darwin" ]]; then
-    echo "   On macOS, use: ssh-add --apple-use-keychain $ssh_dir/id_ed25519"
+    echo "   On macOS, use: ssh-add --apple-use-keychain $ssh_dir/verdea_ed25519"
 fi
 echo ""
 echo "5. Get your public key for the admin:"
-echo "   cat $ssh_dir/id_ed25519.pub"
+echo "   cat $ssh_dir/verdea_ed25519.pub"
 echo "   Copy the output and send it to your admin."
 echo ""
 echo "6. After the admin adds your key, run this script again to test."
