@@ -12,6 +12,12 @@ Automatically diagnose and fix SSH issues.
 ./init-ssh-helper.sh
 ```
 
+## Step 2.5: Switch to SSH
+Update this repository to use SSH instead of HTTPS.
+```bash
+git remote set-url origin git@github.com:Verdea-Technology/init.git
+```
+
 ## Step 3: Create a new SSH key (if you don't have one)
 Generate an ed25519 key with your company email (or use your personal email).
 ```bash
@@ -20,7 +26,7 @@ ssh-keygen -t ed25519 -C "your_email@verdea.io"
 - Press Enter to accept the default location (~/.ssh/verdea_ed25519)
 - Enter a passphrase when prompted (optional but recommended)
 
-## Step 4: Add key to ssh-agentno 
+## Step 4: Add key to ssh-agent 
 Load your key into the SSH agent.
 ```bash
 ssh-add ~/.ssh/verdea_ed25519
