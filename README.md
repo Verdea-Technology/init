@@ -1,75 +1,76 @@
 # init
 
-
-## 1. Clone this repo with HTTPS
-Test your access to github
+## Step 1: Clone this repo (HTTPS)
+Verify you can access GitHub.
 ```bash
 git clone https://github.com/Verdea-Technology/init.git
 ```
 
-## 2. Run shell helper
+## Step 2: Run the helper script (macOS/Linux)
+Automatically diagnose and fix SSH issues.
 ```bash
 ./init-ssh-helper.sh
 ```
 
-
-## 2. Create a SSH key
+## Step 3: Create a new SSH key (if you don't have one)
+Generate an ed25519 key with your email.
 ```bash
-ssh-keygen -y -f ~/.ssh/[key_filename] > ~/.ssh/[key_filename].pub
+ssh-keygen -t ed25519 -C "your_email@company.com"
+```
+- Press Enter to accept the default location (~/.ssh/id_ed25519)
+- Enter a passphrase when prompted (optional but recommended)
+
+## Step 4: Add key to ssh-agent
+Load your key into the SSH agent.
+```bash
+ssh-add ~/.ssh/id_ed25519
+```
+macOS only:
+```bash
+ssh-add --apple-use-keychain ~/.ssh/id_ed25519
 ```
 
-Test your access to github
+## Step 5: Copy your public key
+Send this to your admin to add to GitHub.
+
+macOS:
+```bash
+pbcopy < ~/.ssh/id_ed25519.pub
+```
+
+Linux:
+```bash
+cat ~/.ssh/id_ed25519.pub
+```
+
+Windows CMD:
+```bash
+type %USERPROFILE%\.ssh\id_ed25519.pub
+```
+
+Windows PowerShell:
+```bash
+Get-Content $env:USERPROFILE\.ssh\id_ed25519.pub | Set-Clipboard
+```
+
+## Step 6: Add key to GitHub
+1. Go to GitHub Settings → SSH and GPG Keys → New SSH Key
+2. Paste your public key
+3. Notify your admin you've added your key
+
+## Step 7: Test your connection
+Verify SSH access works.
 ```bash
 ssh -T git@github.com
 ```
 
-Switch to SSH instead of HTTPS
-(all other repos should use SSH)
-```bash
-git remote set-url origin git@github.com:Verdea-Technology/init.git
-```
-
-Check if you have keys
-```bash
-ls -al ~/.ssh
-```
-
-Set permissions if needed
-```bash
-chmod 600 ~/.ssh/[key_filename]
-```
-
-MacOS - add key to keychain
-```bash
-ssh-add --apple-use-keychain ~/.ssh/[key_filename]
-```
-
-
-```bash
-pbcopy < ~/.ssh/[key_filename].pub
-```
-
-```bash
-cd ..
-```
+## Step 8: Clone other repos (using SSH)
+Clone Verdea repositories with SSH.
 ```bash
 git clone git@github.com:Verdea-Technology/verdea-website.git
-```
-```bash
 git clone git@github.com:Verdea-Technology/verdea-app.git
 ```
 
-## SSH Access Helper Script
+---
 
-Use the `init-ssh-helper.sh` script to diagnose SSH connection issues:
-
-```bash
-./init-ssh-helper.sh
-```
-
-The script will:
-- Check SSH and Git installation
-- List your SSH keys and analyze permissions
-- Test connection to GitHub
-- Provide step-by-step guidance if connection fails
-
+**Windows/Linux manual setup:** If the helper script doesn't work, follow Steps 3-7 directly.
