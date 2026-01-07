@@ -12,7 +12,7 @@ Automatically diagnose and fix SSH issues.
 ./init-ssh-helper.sh
 ```
 
-## Step 2.5: Switch to SSH
+## Step 2.5: Switch to SSH (if you want to PUSH to the init repo)
 Update this repository to use SSH instead of HTTPS.
 ```bash
 git remote set-url origin git@github.com:Verdea-Technology/init.git
